@@ -5,13 +5,13 @@
 
 
 ## Setup
-> On your work machine   
+> On your work machine      
 ```sh
 git clone https://github.com/debianmaster/openshift-ansible.git
 cd openshift-ansible
 ```
 
-> Create following file at  /etc/ansible/hosts   
+> Create following file at  /etc/ansible/hosts      
 
 ```yml
 [OSEv3:children]
@@ -53,8 +53,6 @@ cloud.i63.io
 [lb]
 cloud.i63.io
 
-[registry]
-cloud.i63.io
 
 [router]
 cloud.i63.io
@@ -63,3 +61,10 @@ cloud.i63.io
 ```sh
 ansible-playbook playbooks/byo/config.yml -i /etc/ansible/hosts
 ```
+
+> SSH to master and execute following  
+`oadm registry`   # creates a registry
+`oc edit nodes/cloud.i63.io`  # make the value of 
+
+
+
