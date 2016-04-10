@@ -80,7 +80,10 @@ oc status
 > Add new secret to openshift for gitlab / github    
 
 
-`oc secrets new-basicauth gitlab --password=yourgitlabsecret`  
+```sh
+oc secrets new-basicauth gitlab --password=yourgitlabsecret   
+oc secrets add serviceaccount/builder secrets/gitlab
+```
 
 > Create a build config file as follows with gitlab sercret   *bc.yml*    
 
