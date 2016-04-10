@@ -1,45 +1,65 @@
-#OpenShift and Atomic Enterprise Ansible
+## Pre-req
+> Setup ssh keys between work machine and servers before you start this.  
+> I have One machine with  hostname cloud.i63.io and ip address 104.199.140.227   
+> make sure following wild card mapping is setup  *.cloud.i63.io  should go to 104.199.140.227 
 
-This repo contains Ansible code for OpenShift and Atomic Enterprise.
 
-##Setup
-- Install base dependencies:
-  - Fedora:
-  ```
-    dnf install -y ansible-1.9.4 rubygem-thor rubygem-parseconfig util-linux pyOpenSSL libffi-devel python-cryptography
-  ```
-   - OSX:
-  ```
-    # Install ansible 1.9.4 and python 2
-    brew install ansible python
-    # Required ruby gems
-    gem install thor parseconfig
-  ```
-- Setup for a specific cloud:
-  - [AWS](README_AWS.md)
-  - [GCE](README_GCE.md)
-  - [local VMs](README_libvirt.md)
+## Setup
+> On your work machine   
+```sh
+git clone https://github.com/debianmaster/openshift-ansible.git
+cd openshift-ansible
+```
 
-- Bring your own host deployments:
-  - [OpenShift Enterprise](README_OSE.md)
-  - [OpenShift Origin](README_origin.md)
-  - [Atomic Enterprise](README_AEP.md)
+> Create following file at  /etc/ansible/hosts   
 
-- Build
-  - [How to build the openshift-ansible rpms](BUILD.md)
+```yml
+[OSEv3:children]
+masters
+nodes
+etcd
+lb
+registry
+router
 
-- Directory Structure:
-  - [bin/cluster](bin/cluster) - python script to easily create clusters
-  - [docs](docs) - Documentation for the project
-  - [filter_plugins/](filter_plugins) - custom filters used to manipulate data in Ansible
-  - [inventory/](inventory) - houses Ansible dynamic inventory scripts
-  - [playbooks/](playbooks) - houses host-type Ansible playbooks (launch, config, destroy, vars)
-  - [roles/](roles) - shareable Ansible tasks
+# Set variables common for all OSEv3 hosts
+[OSEv3:vars]
 
-##Contributing
-- [Best Practices Guide](docs/best_practices_guide.adoc)
-- [Core Concepts](docs/core_concepts_guide.adoc)
-- [Style Guide](docs/style_guide.adoc)
+# SSH user, this user should allow ssh based auth without requiring a password
+ansible_ssh_user=cjonagam
+osm_default_subdomain=cloud.i63.io
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/htpasswd'}]
 
-###Feature Roadmap
-Our Feature Roadmap is available on the OpenShift Origin Infrastructure [Trello board](https://trello.com/b/nbkIrqKa/openshift-origin-infrastructure). All ansible items will be tagged with [installv3].
+
+
+# If ansible_ssh_user is not root, ansible_sudo must be set to true
+ansible_sudo=true
+
+deployment_type=origin
+
+# host group for masters
+[masters]
+cloud.i63.io openshift_public_hostname=cloud.i63.io  openshift_ip=104.199.140.227  openshift_public_ip=104.199.140.227 openshift_hostname=cloud.i63.io
+
+
+# host group for nodes
+[nodes]
+cloud.i63.io openshift_public_hostname=cloud.i63.io  openshift_ip=104.199.140.227  openshift_public_ip=104.199.140.227 openshift_hostname=cloud.i63.io
+
+# host group for etcd
+[etcd]
+cloud.i63.io
+
+[lb]
+cloud.i63.io
+
+[registry]
+cloud.i63.io
+
+[router]
+cloud.i63.io
+```
+
+```sh
+ansible-playbook playbooks/byo/config.yml -i /etc/ansible/hosts
+```
