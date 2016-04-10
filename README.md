@@ -1,11 +1,12 @@
 ## Pre-req
 > Setup ssh keys between work machine and servers before you start this.  
-> I have One machine with  hostname cloud.i63.io and ip address 104.199.140.227   
+> I have One Centos machine with  hostname *cloud.i63.io* and ip address *104.199.140.227*  
 > make sure following wild card mapping is setup  *.cloud.i63.io  should go to 104.199.140.227 
 
 
 ## Setup
-> On your work machine      
+> On your work machine     
+
 ```sh
 git clone https://github.com/debianmaster/openshift-ansible.git
 cd openshift-ansible
