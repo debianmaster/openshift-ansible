@@ -68,7 +68,8 @@ ansible-playbook playbooks/byo/config.yml -i /etc/ansible/hosts
 `oc edit nodes/cloud.i63.io`  # make the value of   unschedulable  to false  
 `oc policy add-role-to-user admin admin -n default`  # give permission on default project to admin   
 `oc policy add-role-to-user admin admin -n openshift`  # give permission on openshift project to admin   
-`oadm registry`   # creates a registry     
+`oadm registry`   # creates a registry    
+`oadm router`   # creates a openshift-haproxy router     
 
 
 
