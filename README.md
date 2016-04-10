@@ -63,9 +63,10 @@ cloud.i63.io
 ansible-playbook playbooks/byo/config.yml -i /etc/ansible/hosts
 ```
 
-> SSH to master and execute following  
-`oadm registry`   # creates a registry
-`oc edit nodes/cloud.i63.io`  # make the value of 
+> SSH to master and execute following    
+`htpasswd -c /etc/origin/htpasswd cjonagam`   #set password  
+`oadm registry`   # creates a registry    
+`oc edit nodes/cloud.i63.io`  # make the value of   
 
 
 
