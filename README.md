@@ -71,5 +71,41 @@ ansible-playbook playbooks/byo/config.yml -i /etc/ansible/hosts
 `oadm registry`   # creates a registry    
 `oadm router`   # creates a openshift-haproxy router     
 
+## Usage
+```sh
+oc login https://cloud.i63.io:8443 
+oc status
+```
+
+> Add new secret to openshift for gitlab / github    
+
+
+`oc secrets new-basicauth gitlab --password=yourgitlabsecret`  
+
+> Create a build config file as follows with gitlab sercret   *bc.yml*    
+
+```yml
+apiVersion: "v1"
+kind: "BuildConfig"
+metadata:
+  name: "sample-build"
+spec:
+  source:
+    git:
+      uri: "https://gitlab.com/dynamostack/shop-api.git" 
+    sourceSecret:
+      name: "gitlab"
+    type: "Git"
+  strategy:
+    type: "Source"
+    sourceStrategy:
+     from:
+      kind: DockerImage
+      name: 'openshift/nodejs-010-centos7' 
+```
+
+```sh
+oc create -f bc.yml   
+```
 
 
