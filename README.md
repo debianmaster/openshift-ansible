@@ -81,7 +81,7 @@ oc status
 
 
 ```sh
-oc secrets new-basicauth gitlab --password=yourgitlabsecret   
+oc secrets new-basicauth gitlab --username=gitusername --password=gitpassword
 oc secrets add serviceaccount/builder secrets/gitlab
 ```
 
