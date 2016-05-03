@@ -20,7 +20,6 @@ masters
 nodes
 etcd
 lb
-registry
 router
 
 # Set variables common for all OSEv3 hosts
