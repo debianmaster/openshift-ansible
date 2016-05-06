@@ -76,7 +76,7 @@ oc login https://cloud.i63.io:8443
 oc status
 ```
 
-> Add new secret to openshift for gitlab / github    
+> Add new secret to openshift for gitlab / github             
 
 
 ```sh
