@@ -83,6 +83,23 @@ oc status
 oc secrets new-basicauth gitlab --username=gitusername --password=gitpassword
 oc secrets add serviceaccount/builder secrets/gitlab
 ```
+> Create an image stream  *is.json*
+```json
+{
+    "kind": "ImageStream",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "shop-api",
+        "namespace": "development",
+        "labels": {
+            "app": "shop-api"
+        }
+    }
+}
+```
+`create -f is.json`    
+
+
 
 > Create a build config file as follows with gitlab sercret   *bc.yml*    
 
